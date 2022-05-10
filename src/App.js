@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import Button from "./components/Button";
+import Display from "./components/Display";
 
-function App() {
+
+const App = () => {
+  const [choices, setChoices] = useState([]);
+  const [level, setLevel] = useState('');
+
+  // fetch json class data for initial spread
+  const fetchClasses = () => {
+    fetch("http://localhost:4000/choices")
+      .then((res) => res.json())
+      .then((choiceData) => setChoices(choiceData));
+  };
+
+  useEffect(fetchClasses, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1 class="title">Elden Ring Stat Calculator</h1>
+      <div className="level display">
+        <Display choices={choices} level={level} setLevel={setLevel}/>
+        <div className="stat table">
+          <Button />
+        </div>
+      </div> 
     </div>
   );
 }
